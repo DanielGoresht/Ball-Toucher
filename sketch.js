@@ -1,9 +1,14 @@
 
 var balls = [];
 
+function preload() {
+	song = loadSound('/ding.mp4');
+
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  song.loop();
 }
 
 function draw() {
@@ -17,6 +22,7 @@ function draw() {
 		fill(balls[i].color);
 		noStroke();
 		balls[i].x = balls[i].x + balls[i].xspeed;
+
 		if (balls[i].x > width)
 		{
 			balls[i].x = width;
@@ -35,7 +41,7 @@ function draw() {
 		}
 		if (balls[i].y <= 0)
 		{
-			balls[i].y = 0;
+			balls[i].y = 5;
 			balls[i].yspeed *= -1;
 		}
 
@@ -54,7 +60,7 @@ function createBall(x,y)
 	  	y: y,
 	  	xspeed: random(-5,5),
 	  	yspeed: random(-5,5),
-	  	color: color(random(200,255), random(0,255), random(0,255))
+	  	color: color(random(0,255), random(255,255), random(0,255))
 
 	  }
 	balls.push(ball)

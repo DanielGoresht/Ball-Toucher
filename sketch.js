@@ -9,12 +9,37 @@ var speed_modifier = 1;
 var size_modifier = 1;
 var decay_modifier = 1;
 var spray_speed = 1;
-var square_spawn = 199;
+var square_spawn = 200;
+var notes = [];
+var wind_notes = [];
 
 function preload() {
-	 ding = loadSound('ding.mp3');
-	 hit = loadSound('hit.wav');
-	 explode = loadSound('explode2.wav');
+	 notes.push(loadSound('audio/A.wav'));
+	 notes.push(loadSound('audio/B.wav'));
+	 notes.push(loadSound('audio/C.wav'));
+	 notes.push(loadSound('audio/D.wav'));
+	 notes.push(loadSound('audio/E.wav'));
+	 notes.push(loadSound('audio/F.wav'));
+	 notes.push(loadSound('audio/G.wav'));
+	 notes.push(loadSound('audio/high_a.wav'));
+	 notes.push(loadSound('audio/high_b.wav'));
+	 notes.push(loadSound('audio/high_c.wav'));
+	 notes.push(loadSound('audio/high_d.wav'));
+	 notes.push(loadSound('audio/high_e.wav'));
+	 notes.push(loadSound('audio/high_f.wav'));
+	 notes.push(loadSound('audio/high_g.wav'));
+
+	 wind_notes.push(loadSound('audio/wind_B.wav'));
+	 wind_notes.push(loadSound('audio/wind_E.wav'));
+	 wind_notes.push(loadSound('audio/wind_G.wav'));
+	 wind_notes.push(loadSound('audio/wind_c.wav'));
+	 wind_notes.push(loadSound('audio/wind_f.wav'));
+	
+
+	
+	 // ding = loadSound('audio/ding3.wav');
+	 // hit = loadSound('audio/hit.wav');
+	 // explode = loadSound('audio/explode2.wav');
 }
 
 function setup() {
@@ -39,6 +64,7 @@ function draw() {
 	}
 
 	if (mouseIsPressed) {
+
 		createBall();
 	}
 	//draw squares
@@ -74,7 +100,6 @@ function draw() {
 		//remove squares that are off screen
 		if (debrees[i].width < 0) {
 			debrees.splice(i, 1);
-			//alert("GAME OVER");
 		}
 
 		
@@ -90,6 +115,7 @@ function draw() {
 		if (balls[i].x + balls[i].width / 2 > width) {
 			balls[i].x = width - balls[i].width / 2;
 			balls[i].xspeed *= -1;
+
 		}
 		if (balls[i].x <= balls[i].width / 2) {
 			balls[i].x = balls[i].width / 2;
@@ -148,25 +174,27 @@ function draw() {
 				{
 					squares[j].color = color(255, random(((4-squares[j].hp)*50)- 33, (4-squares[j].hp)*50), (4-squares[j].hp)*60);
 
-					hit.rate(10/balls[i].height);
-					hit.play();
+					 //hit.rate(10/balls[i].height);
+
+					notes[Math.floor(random(0, notes.length -1))].play();
 				}
 				else
 				{
 					createDebree(squares[j].color, squares[j].x, squares[j].y, squares[j].width);
-					explode.rate(20/(balls[i].height/2));
-					explode.play();
+					//explode.rate(20/(balls[i].height/2));
+					//explode.play();
+					wind_notes[Math.floor(random(0, wind_notes.length -1))].play();
 					squares.splice(j, 1);
 				}
-				 // balls[i].height /= 2;
-		  	// 	 balls[i].width /= 2;
+				 balls[i].height /= 2;
+		  		 balls[i].width /= 2;
 			}
 		}
 
 
 		ellipse(balls[i].x, balls[i].y, balls[i].width, balls[i].height);
-		   balls[i].height -= 0.2;
-		   balls[i].width -= 0.2;
+		   // balls[i].height -= 0.2;
+		   // balls[i].width -= 0.2;
 
 		if (balls[i].height > windowHeight - 200 || balls[i].width > windowWidth - 200 || balls[i].height < 1 || balls[i].y > windowHeight) {
 			balls.splice(i, 1);
@@ -188,12 +216,13 @@ function createBall() {
 		damage: 1 * damage_modifier
 
 	}
-	balls.push(ball)
-	let playbackRate = map((mouseX + mouseY) / 2.5, 0.01, width, 1.3, 0);
-	playbackRate = constrain(playbackRate, 0.01, 4);
+	// let playbackRate = map((mouseX + mouseY) / 2.5, 0.01, width, 1.3, 0);
+	// playbackRate = constrain(playbackRate, 0.01, 4);
+	// var rand = Math.floor(random(0, notes.length -1));
+	// notes[rand].rate(playbackRate);
+	notes[Math.floor(random(0, notes.length -1))].play();
+	balls.push(ball);
 
-	 ding.rate(playbackRate);
-	 ding.play();
 }
 
 function createSquare() {
@@ -244,6 +273,8 @@ function createDebree(p_color, p_x, p_y, width)
 
 	}
 }
+
+
 
 function windowResized() {
 	resizeCanvas(windowWidth, windowHeight);

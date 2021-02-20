@@ -160,7 +160,7 @@ function draw() {
 					squares.splice(j, 1);
 				}
 				// balls[i].height /= 2;
-		  // 		balls[i].width /= 2;
+		  		// balls[i].width /= 2;
 			}
 		}
 
@@ -190,7 +190,6 @@ function createBall() {
 
 	}
 	balls.push(ball)
-	//let playbackRate = map((mouseX + mouseY)/2, 0.01, width, 2, 0);
 	let playbackRate = map((mouseX + mouseY) / 2.5, 0.01, width, 1.3, 0);
 	playbackRate = constrain(playbackRate, 0.01, 4);
 

@@ -21,14 +21,13 @@ function setup() {
 	createCanvas(windowWidth, windowHeight);
 	masterVolume(0.3);
 	rectMode(CENTER);
-	setTimeout(reduce(),1000);
-
+	setTimeout(reduce(),10000);
 }
 
 function reduce()
 {
 	square_spawn --;
-	setTimeout(reduce,1000);
+	setTimeout(reduce,10000);
 }
 
 function draw() {

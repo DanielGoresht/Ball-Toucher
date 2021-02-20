@@ -10,8 +10,10 @@ var decay_modifier = 1;
 var spray_speed = 1;
 
 function preload() {
-	// ding = loadSound('ding.mp3');
-	// key = loadSound('key.mp3');
+	 ding = loadSound('ding.mp3');
+	 hit = loadSound('hit.wav');
+	 explode = loadSound('explode2.wav');
+
 }
 
 function setup() {
@@ -19,15 +21,15 @@ function setup() {
 	masterVolume(0.3);
 	rectMode(CENTER);
 
-	createCanvas(500, 300);
-	ps = new ParticleSystem(200, 100, 10);
+	//ps = new ParticleSystem(200, 100, 10);
 }
 
 function draw() {
+
 	background(255);
-	ps.display();
-	ps.update();
-	//   key.rate(.8);
+	//ps.display();
+	//ps.update();
+	
 
 	if (random(0, 100) > 99) {
 		createSquare();
@@ -35,7 +37,7 @@ function draw() {
 
 	if (mouseIsPressed) {
 		createBall();
-		ps.shatter();
+		//ps.shatter();
 
 	}
 
@@ -56,31 +58,29 @@ function draw() {
 	}
 
 	for (let i = 0; i < balls.length; i++) {
+
 		fill(balls[i].color);
 		noStroke();
 		balls[i].x = balls[i].x + balls[i].xspeed;
+		//bounce.rate(12/balls[i].height);
 		//check for hitting walls
 		if (balls[i].x + balls[i].width / 2 > width) {
 			balls[i].x = width - balls[i].width / 2;
 			balls[i].xspeed *= -1;
-			// key.play();
 		}
 		if (balls[i].x <= balls[i].width / 2) {
 			balls[i].x = balls[i].width / 2;
 			balls[i].xspeed *= -1;
-			// key.play();
 		}
 		balls[i].y = balls[i].y + balls[i].yspeed;
 
 		if (balls[i].y + balls[i].height / 2 > height) {
 			balls[i].y = height - balls[i].height / 2;
 			balls[i].yspeed *= -1;
-			// key.play();
 		}
 		if (balls[i].y <= balls[i].height / 2) {
 			balls[i].y = balls[i].height / 2;
 			balls[i].yspeed *= -1
-			// key.play();
 		}
 
 		//hit dectection
@@ -124,18 +124,23 @@ function draw() {
 				if (squares[j].hp > 0)
 				{
 					squares[j].color = color(255, random(((4-squares[j].hp)*50)- 33, (4-squares[j].hp)*50), (4-squares[j].hp)*60);
+					hit.rate(10/balls[i].height);
+					hit.play();
 				}
 				else
 				{
+					explode.rate(20/(balls[i].height/2));
+					explode.play();
 					squares.splice(j, 1);
 				}
 			}
 		}
 
-		ellipse(balls[i].x, balls[i].y, balls[i].width, balls[i].height);
 
-		balls[i].height -= 0.1;
-		balls[i].width -= 0.1;
+		ellipse(balls[i].x, balls[i].y, balls[i].width, balls[i].height);
+		 // balls[i].height -= 0.2;
+		 // balls[i].width -= 0.2;
+
 		if (balls[i].height > windowHeight - 200 || balls[i].width > windowWidth - 200 || balls[i].height < 1 || balls[i].y > windowHeight) {
 			balls.splice(i, 1);
 		}
@@ -150,9 +155,9 @@ function createBall() {
 		width: size,
 		x: mouseX,
 		y: mouseY,
-		xspeed: random(-1, 1),
-		yspeed: random(-1, 1),
-		color: color(random(0, 250), random(250, 255), random(0, 250)),
+		xspeed: random(-5, 5),
+		yspeed: random(-5, 5),
+		color: color(random(0, 200), random(250, 255), random(0, 200)),
 		damage: 1 * damage_modifier
 
 	}
@@ -161,8 +166,8 @@ function createBall() {
 	let playbackRate = map((mouseX + mouseY) / 2.5, 0.01, width, 1.3, 0);
 	playbackRate = constrain(playbackRate, 0.01, 4);
 
-	// ding.rate(playbackRate);
-	// ding.play();
+	 ding.rate(playbackRate);
+	 ding.play();
 }
 
 function createSquare() {

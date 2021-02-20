@@ -39,13 +39,14 @@ function draw() {
 		squares[i].x = squares[i].x + squares[i].xspeed;
 		squares[i].y = squares[i].y + squares[i].yspeed;
 
+		rect(squares[i].x, squares[i].y, squares[i].width, squares[i].height);
 		//remove squares that are off screen
 		if (squares[i].y > windowHeight + 200) {
 			squares.splice(i, 1);
 			//alert("GAME OVER");
 		}
 
-		rect(squares[i].x, squares[i].y, squares[i].width, squares[i].height);
+		
 	}
 
 	for (let i = 0; i < balls.length; i++) {

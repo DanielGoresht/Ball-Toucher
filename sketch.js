@@ -1,6 +1,7 @@
 
 var balls = [];
 var squares = [];
+var debrees = [];
 
 var player_hp = 1;
 var damage_modifier = 1;
@@ -8,39 +9,40 @@ var speed_modifier = 1;
 var size_modifier = 1;
 var decay_modifier = 1;
 var spray_speed = 1;
+var square_spawn = 199;
 
 function preload() {
 	 ding = loadSound('ding.mp3');
 	 hit = loadSound('hit.wav');
 	 explode = loadSound('explode2.wav');
-
 }
 
 function setup() {
 	createCanvas(windowWidth, windowHeight);
 	masterVolume(0.3);
 	rectMode(CENTER);
+	setTimeout(reduce(),20000);
 
-	//ps = new ParticleSystem(200, 100, 10);
+}
+
+function reduce()
+{
+	square_spawn --;
+	setTimeout(reduce,20000);
 }
 
 function draw() {
 
 	background(255);
-	//ps.display();
-	//ps.update();
-	
 
-	if (random(0, 100) > 99) {
+	if (random(0, 200) > square_spawn) {
 		createSquare();
 	}
 
 	if (mouseIsPressed) {
 		createBall();
-		//ps.shatter();
-
 	}
-
+	//draw squares
 	for (let i = 0; i < squares.length; i++) {
 		fill(squares[i].color);
 		noStroke();
@@ -48,9 +50,31 @@ function draw() {
 		squares[i].y = squares[i].y + squares[i].yspeed;
 
 		rect(squares[i].x, squares[i].y, squares[i].width, squares[i].height);
+
 		//remove squares that are off screen
 		if (squares[i].y > windowHeight + 200) {
 			squares.splice(i, 1);
+			//alert("GAME OVER");
+		}
+
+		
+	}
+		//draw debree
+		for (let i = 0; i < debrees.length; i++) {
+
+		fill(debrees[i].color);
+		noStroke();
+		debrees[i].x = debrees[i].x + debrees[i].xspeed;
+		debrees[i].y = debrees[i].y + debrees[i].yspeed;
+
+		rect(debrees[i].x, debrees[i].y, debrees[i].width, debrees[i].height);
+		debrees[i].life --;
+		debrees[i].height -= 0.2;
+		debrees[i].width -= 0.2;
+		
+		//remove squares that are off screen
+		if (debrees[i].width < 0) {
+			debrees.splice(i, 1);
 			//alert("GAME OVER");
 		}
 
@@ -124,22 +148,26 @@ function draw() {
 				if (squares[j].hp > 0)
 				{
 					squares[j].color = color(255, random(((4-squares[j].hp)*50)- 33, (4-squares[j].hp)*50), (4-squares[j].hp)*60);
+
 					hit.rate(10/balls[i].height);
 					hit.play();
 				}
 				else
 				{
+					createDebree(squares[j].color, squares[j].x, squares[j].y, squares[j].width);
 					explode.rate(20/(balls[i].height/2));
 					explode.play();
 					squares.splice(j, 1);
 				}
+				// balls[i].height /= 2;
+		  // 		balls[i].width /= 2;
 			}
 		}
 
 
 		ellipse(balls[i].x, balls[i].y, balls[i].width, balls[i].height);
-		 // balls[i].height -= 0.2;
-		 // balls[i].width -= 0.2;
+		  // balls[i].height -= 0.2;
+		  // balls[i].width -= 0.2;
 
 		if (balls[i].height > windowHeight - 200 || balls[i].width > windowWidth - 200 || balls[i].height < 1 || balls[i].y > windowHeight) {
 			balls.splice(i, 1);
@@ -195,104 +223,32 @@ function createSquare() {
 	squares.push(square);
 }
 
+function createDebree(p_color, p_x, p_y, width)
+{
+
+	for (let i = 10; i > 0; i --)
+	{
+		let xs = random(-5, 5);
+		debree =
+		{
+			width: width/10,
+			height: width/10,
+			starting_width:  width/10,
+			x: p_x + i,
+			y: p_y + i,
+			xspeed: xs,
+			yspeed: random(-5, 5),
+			color: color(255, random(100,200), random(200,255))
+
+		}
+
+	debrees.push(debree)
+
+	}
+}
+
 function windowResized() {
 	resizeCanvas(windowWidth, windowHeight);
 }
 
 
-
-// The Nature of Code
-// Daniel Shiffman
-// http://natureofcode.com
-
-// Using Generics now!  comment and annotate, etc.
-
-class ParticleSystem {
-
-
-	constructor(x, y, r) {
-	  this.particles = [];
-	  // this.intact = true;
-	  let rows = 10;
-	  let cols = 10;
-	  for (let i = 0; i < rows * cols; i++) {
-		this.addParticle(x + (i % cols) * r, y + (floor(i / rows)) * r, r);
-	  }
-	}
-  
-	addParticle(x, y, r) {
-	  this.particles.push(new Particle(x, y, r));
-	}
-  
-	display() {
-	  for (let particle of this.particles) {
-		particle.display();
-	  }
-	}
-  
-	shatter() {
-	  for (let particle of this.particles) {
-		let force = p5.Vector.random2D();
-		force.mult(10);
-		particle.applyForce(force);
-	  }
-	  // this.intact = false;
-	}
-  
-	update() {
-	  for (let particle of this.particles) {
-		particle.update();
-	  }
-	}
-  }
-
-
-
-// shatter
-
-class Particle {
-
-	constructor(x, y, r) {
-	  this.acceleration = createVector();
-	  this.velocity = createVector()
-	  this.velocity.mult(0.5);
-	  this.position = createVector(x, y);
-	  this.lifespan = 255.0;
-	  this.r = r;
-	}
-  
-	run() {
-	  this.update();
-	  this.display();
-	}
-  
-	applyForce(force) {
-	  this.acceleration.add(force);
-	}
-  
-	// Method to update position
-	update() {
-	  this.velocity.add(this.acceleration);
-	  this.position.add(this.velocity);
-	  this.acceleration.mult(0);
-	  this.velocity.mult(0.95);
-	  this.lifespan -= 2.0;
-	}
-  
-	// Method to display
-	display() {
-	  stroke(0);
-	  fill(0);
-	  rectMode(CENTER);
-	  rect(this.position.x, this.position.y, this.r, this.r);
-	}
-  
-	// Is the particle still useful?
-	isDead() {
-	  if (this.lifespan < 0.0) {
-		return true;
-	  } else {
-		return false;
-	  }
-	}
-  }

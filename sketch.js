@@ -21,14 +21,14 @@ function setup() {
 	createCanvas(windowWidth, windowHeight);
 	masterVolume(0.3);
 	rectMode(CENTER);
-	setTimeout(reduce(),20000);
+	setTimeout(reduce(),1000);
 
 }
 
 function reduce()
 {
 	square_spawn --;
-	setTimeout(reduce,20000);
+	setTimeout(reduce,1000);
 }
 
 function draw() {
@@ -159,15 +159,15 @@ function draw() {
 					explode.play();
 					squares.splice(j, 1);
 				}
-				// balls[i].height /= 2;
-		  		// balls[i].width /= 2;
+				 // balls[i].height /= 2;
+		  	// 	 balls[i].width /= 2;
 			}
 		}
 
 
 		ellipse(balls[i].x, balls[i].y, balls[i].width, balls[i].height);
-		  // balls[i].height -= 0.2;
-		  // balls[i].width -= 0.2;
+		   balls[i].height -= 0.2;
+		   balls[i].width -= 0.2;
 
 		if (balls[i].height > windowHeight - 200 || balls[i].width > windowWidth - 200 || balls[i].height < 1 || balls[i].y > windowHeight) {
 			balls.splice(i, 1);

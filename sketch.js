@@ -1,7 +1,13 @@
 
 var balls = [];
 var squares = [];
-var x = 0;
+
+var player_hp = 1;
+var damage_modifier = 1;
+var speed_modifier = 1;
+var size_modifier = 1;
+var decay_modifier = 1;
+var spray_speed = 1;
 
 function preload() {
 	// ding = loadSound('ding.mp3');
@@ -23,17 +29,21 @@ function draw() {
 	}
 
 	if (mouseIsPressed) {
-		createBall(mouseX, mouseY);
+		createBall();
 
 	}
-
-
 
 	for (let i = 0; i < squares.length; i++) {
 		fill(squares[i].color);
 		noStroke();
 		squares[i].x = squares[i].x + squares[i].xspeed;
 		squares[i].y = squares[i].y + squares[i].yspeed;
+
+		//remove squares that are off screen
+		if (squares[i].y > windowHeight + 200) {
+			squares.splice(i, 1);
+			//alert("GAME OVER");
+		}
 
 		rect(squares[i].x, squares[i].y, squares[i].width, squares[i].height);
 	}
@@ -102,31 +112,39 @@ function draw() {
 						balls[i].y -= 1;
 					}
 
-
 				}
-				squares[j].color = balls[i].color;
+				squares[j].hp -= 1;
+				if (squares[j].hp > 0)
+				{
+					squares[j].color = color(255, random(((4-squares[j].hp)*50)- 33, (4-squares[j].hp)*50), (4-squares[j].hp)*60);
+				}
+				else
+				{
+					squares.splice(j, 1);
+				}
+				
 
 			}
 		}
 
 		ellipse(balls[i].x, balls[i].y, balls[i].width, balls[i].height);
 
-		// balls[i].height -= 0.1;
-		// balls[i].width -= 0.1;
+		balls[i].height -= 0.1;
+		balls[i].width -= 0.1;
 		if (balls[i].height > windowHeight - 200 || balls[i].width > windowWidth - 200 || balls[i].height < 1 || balls[i].y > windowHeight) {
 			balls.splice(i, 1);
 		}
 	}
 }
 
-function createBall(x, y) {
+function createBall() {
 	let size = random(10, 40);
 	ball =
 	{
 		height: size,
 		width: size,
-		x: x,
-		y: y,
+		x: mouseX,
+		y: mouseY,
 		xspeed: random(-1, 1),
 		yspeed: random(-1, 1),
 		color: color(random(0, 250), random(250, 255), random(0, 250))
@@ -149,6 +167,8 @@ function createSquare() {
 
 	x = random(0, windowWidth);
 	y = -h * 2;
+	let hp = Math.floor(random(1,5));
+
 
 	square =
 	{
@@ -158,7 +178,8 @@ function createSquare() {
 		y: y,
 		xspeed: random(-.2, .2),
 		yspeed: random(1, 2),
-		color: color(255, random(0, 100), random(100, 200))
+		color: color(255, random(((4-hp)*33)- 33, (4-hp)*33), (4-hp)*60),
+		hp: hp
 	}
 	squares.push(square);
 }

@@ -1,0 +1,17 @@
+3 main weapons:
+
+long shot
+spray n pray
+cannonball
+
+power ups:
+
+ball speed up
+opposite shot
+damage up
+speed up on bounce
+size up
+no bounce but teleport to other side
+when ball dies it explodes
+longer ball life span
+ball gets bigger instead of smaller, but after 3 sec explodes 

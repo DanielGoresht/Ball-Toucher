@@ -18,10 +18,15 @@ function setup() {
 	createCanvas(windowWidth, windowHeight);
 	masterVolume(0.3);
 	rectMode(CENTER);
+
+	createCanvas(500, 300);
+	ps = new ParticleSystem(200, 100, 10);
 }
 
 function draw() {
 	background(255);
+	ps.display();
+	ps.update();
 	//   key.rate(.8);
 
 	if (random(0, 100) > 99) {
@@ -30,6 +35,7 @@ function draw() {
 
 	if (mouseIsPressed) {
 		createBall();
+		ps.shatter();
 
 	}
 
@@ -114,7 +120,7 @@ function draw() {
 					}
 
 				}
-				squares[j].hp -= 1;
+				squares[j].hp -= balls[i].damage;
 				if (squares[j].hp > 0)
 				{
 					squares[j].color = color(255, random(((4-squares[j].hp)*50)- 33, (4-squares[j].hp)*50), (4-squares[j].hp)*60);
@@ -123,8 +129,6 @@ function draw() {
 				{
 					squares.splice(j, 1);
 				}
-				
-
 			}
 		}
 
@@ -148,7 +152,8 @@ function createBall() {
 		y: mouseY,
 		xspeed: random(-1, 1),
 		yspeed: random(-1, 1),
-		color: color(random(0, 250), random(250, 255), random(0, 250))
+		color: color(random(0, 250), random(250, 255), random(0, 250)),
+		damage: 1 * damage_modifier
 
 	}
 	balls.push(ball)
@@ -188,3 +193,101 @@ function createSquare() {
 function windowResized() {
 	resizeCanvas(windowWidth, windowHeight);
 }
+
+
+
+// The Nature of Code
+// Daniel Shiffman
+// http://natureofcode.com
+
+// Using Generics now!  comment and annotate, etc.
+
+class ParticleSystem {
+
+
+	constructor(x, y, r) {
+	  this.particles = [];
+	  // this.intact = true;
+	  let rows = 10;
+	  let cols = 10;
+	  for (let i = 0; i < rows * cols; i++) {
+		this.addParticle(x + (i % cols) * r, y + (floor(i / rows)) * r, r);
+	  }
+	}
+  
+	addParticle(x, y, r) {
+	  this.particles.push(new Particle(x, y, r));
+	}
+  
+	display() {
+	  for (let particle of this.particles) {
+		particle.display();
+	  }
+	}
+  
+	shatter() {
+	  for (let particle of this.particles) {
+		let force = p5.Vector.random2D();
+		force.mult(10);
+		particle.applyForce(force);
+	  }
+	  // this.intact = false;
+	}
+  
+	update() {
+	  for (let particle of this.particles) {
+		particle.update();
+	  }
+	}
+  }
+
+
+
+// shatter
+
+class Particle {
+
+	constructor(x, y, r) {
+	  this.acceleration = createVector();
+	  this.velocity = createVector()
+	  this.velocity.mult(0.5);
+	  this.position = createVector(x, y);
+	  this.lifespan = 255.0;
+	  this.r = r;
+	}
+  
+	run() {
+	  this.update();
+	  this.display();
+	}
+  
+	applyForce(force) {
+	  this.acceleration.add(force);
+	}
+  
+	// Method to update position
+	update() {
+	  this.velocity.add(this.acceleration);
+	  this.position.add(this.velocity);
+	  this.acceleration.mult(0);
+	  this.velocity.mult(0.95);
+	  this.lifespan -= 2.0;
+	}
+  
+	// Method to display
+	display() {
+	  stroke(0);
+	  fill(0);
+	  rectMode(CENTER);
+	  rect(this.position.x, this.position.y, this.r, this.r);
+	}
+  
+	// Is the particle still useful?
+	isDead() {
+	  if (this.lifespan < 0.0) {
+		return true;
+	  } else {
+		return false;
+	  }
+	}
+  }

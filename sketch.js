@@ -1,7 +1,6 @@
 
 var balls = [];
 var squares = [];
-const fireworks = [];
 var x = 0;
 
 function preload() {
@@ -78,21 +77,15 @@ function draw() {
 		for (let j = 0; j < squares.length; j++)
 		{
 
-			// if (balls[i].x + balls[i].width + balls[i].xspeed > squares[j].x && 
-			// 	balls[i].x + balls[i].xspeed < squares[j].x + squares[j].width && 
-			// 	balls[i].y + balls[i].height > squares[j].y && 
-			// 	balls[i].y < squares[j].y + squares[j].height)
 			if (balls[i].x + balls[i].width/2 > squares[j].x - squares[j].width/2 && balls[i].x - balls[i].width/2 < squares[j].x + squares[j].width/2 && balls[i].y + balls[i].height/2 > squares[j].y - squares[j].height/2 && balls[i].y - balls[i].height/2 < squares[j].y + squares[j].height/2) 
 			{
 	
-				// balls[i].yspeed = balls[i].yspeed * -1;
-				//bouncingRectSpeedX *= -1;
 				balls[i].xspeed *= -1;
 				balls[i].x += balls[i].xspeed;
 				balls[i].yspeed *= -1;
-				if (squares[j].yspeed/2 > balls[i].yspeed && balls[i].yspeed < 0)
+				if (squares[j].yspeed/2 > balls[i].yspeed && balls[i].yspeed < 0 )
 				{
-					balls[i].yspeed *= - squares[j].yspeed;
+					balls[i].yspeed = squares[j].yspeed - balls[i].yspeed;
 					balls[i].y += balls[i].yspeed;
 				}
 				else

@@ -45,7 +45,7 @@ function draw() {
 		fill(balls[i].color);
 		noStroke();
 		balls[i].x = balls[i].x + balls[i].xspeed;
-		
+		//check for hitting walls
 		if (balls[i].x + balls[i].width/2 > width)
 		{
 			balls[i].x = width - balls[i].width/2;
@@ -76,24 +76,37 @@ function draw() {
 		//hit dectection
 		for (let j = 0; j < squares.length; j++)
 		{
-
-			if (balls[i].x + balls[i].width/2 > squares[j].x - squares[j].width/2 && balls[i].x - balls[i].width/2 < squares[j].x + squares[j].width/2 && balls[i].y + balls[i].height/2 > squares[j].y - squares[j].height/2 && balls[i].y - balls[i].height/2 < squares[j].y + squares[j].height/2) 
+			//check for collision anywhere
+			if (balls[i].x + balls[i].width/2 > squares[j].x - squares[j].width/2 && 
+				balls[i].x - balls[i].width/2 < squares[j].x + squares[j].width/2 && 
+				balls[i].y + balls[i].height/2 > squares[j].y - squares[j].height/2 && 
+				balls[i].y - balls[i].height/2 < squares[j].y + squares[j].height/2) 
 			{
-	
-				balls[i].xspeed *= -1;
-				balls[i].x += balls[i].xspeed;
-				balls[i].yspeed *= -1;
-				if (squares[j].yspeed/2 > balls[i].yspeed && balls[i].yspeed < 0 )
+				//step back and check if it was on the side (left or right)
+				if (balls[i].x + balls[i].width/2 > squares[j].x - squares[j].width/2 && 
+					balls[i].x - balls[i].width/2 < squares[j].x + squares[j].width/2 && 
+					balls[i].y + balls[i].height/2 - balls[i].yspeed > squares[j].y - squares[j].height/2 - squares[j].yspeed && 
+					balls[i].y - balls[i].height/2 - balls[i].yspeed < squares[j].y + squares[j].height/2 - squares[j].yspeed) 
+
 				{
-					balls[i].yspeed = squares[j].yspeed - balls[i].yspeed;
-					balls[i].y += balls[i].yspeed;
+					balls[i].xspeed *= -1;
+					balls[i].x += balls[i].xspeed;
 				}
-				else
+				//check if it was top or bottom
+				else 
 				{
-					balls[i].y += balls[i].yspeed;
-				}
-				
-	
+					balls[i].yspeed *= -1;
+					if (squares[j].yspeed/2 > balls[i].yspeed && balls[i].yspeed < 0 )
+					{
+						balls[i].yspeed = squares[j].yspeed - balls[i].yspeed;
+						balls[i].y += balls[i].yspeed;
+					}
+					else
+					{
+						balls[i].y += balls[i].yspeed;
+					}
+					
+				}	
 				while (balls[i].x + balls[i].width/2 > squares[j].x - squares[j].width/2 && balls[i].x - balls[i].width/2 < squares[j].x + squares[j].width/2 && balls[i].y + balls[i].height/2 > squares[j].y - squares[j].height/2 && balls[i].y - balls[i].height/2 < squares[j].y + squares[j].height/2) 
 				{
 					balls[i].x += balls[i].xspeed;

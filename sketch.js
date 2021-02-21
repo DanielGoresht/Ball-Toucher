@@ -95,7 +95,7 @@ function reduce()
 
 function draw() {
 
-	background(255);
+	background(255, 255, 255, fade);
 
 
 	if (game_phase == 0)
@@ -198,7 +198,7 @@ function draw() {
 		noStroke();
 		text('Click as fast as you can to fire balls',windowWidth*.2, windowHeight/2 + 80);
 		text('Click and hold to fire at random',windowWidth*.5, windowHeight/2 + 80);
-		text('Click and darg to fire a shot',windowWidth*.8, windowHeight/2 + 80);
+		text('Click and drag to fire a shot',windowWidth*.8, windowHeight/2 + 80);
 
 	}
 	else if (game_phase == 2)
@@ -473,7 +473,7 @@ function createSquare() {
 		width: w,
 		x: x,
 		y: y,
-		xspeed: random(-.2, .2),
+		xspeed: random(-0.2, 0.2),
 		yspeed: random(1, 1.5),
 		color: color(255, random(((4-hp)*33)- 33, (4-hp)*33), (4-hp)*60),
 		hp: hp
@@ -647,7 +647,9 @@ function drawBalls()
 					createDebree(squares[j].color, squares[j].x, squares[j].y, squares[j].width);
 					//explode.rate(20/(balls[i].height/2));
 					//explode.play();
-					piano_notes[Math.floor(random(0, piano_notes.length))].play();
+					//piano_notes[Math.floor(random(0, piano_notes.length))].play();
+					flute_notes[Math.floor(random(0, flute_notes.length))].play();
+					flute_notes[Math.floor(random(0, flute_notes.length))].play();
 					flute_notes[Math.floor(random(0, flute_notes.length))].play();
 					score ++;
 					squares.splice(j, 1);

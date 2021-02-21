@@ -245,7 +245,7 @@ function mousePressed()
 	{
 		score = 0;
 		balls = [];
-		squares = [];
+
 
 
 		if (mouseX > windowWidth*.2 - 400/2 &&
@@ -261,6 +261,7 @@ function mousePressed()
 			reduce();
 			gun = "updoot";
 			game_phase = 2;
+			squares = [];
 
 		}
 		else if (mouseX > windowWidth*.5 - 400/2 &&
@@ -276,6 +277,7 @@ function mousePressed()
 			reduce();
 			gun = "spray_n_pray";
 			game_phase = 2;
+			squares = [];
 			
 		}
 		else if (mouseX > windowWidth*.8 - 400/2 &&
@@ -291,6 +293,7 @@ function mousePressed()
 			reduce();
 			gun = "slingshot";
 			game_phase = 2;
+			squares = [];
 			
 		}
 	}

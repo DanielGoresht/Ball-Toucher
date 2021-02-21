@@ -13,7 +13,7 @@ var speed_modifier = 1;
 var size_modifier = 1;
 var decay_modifier = 1;
 var spray_speed = 1;
-var square_spawn = 200;
+var square_spawn;
 var notes = [];
 var piano_notes = [];
 var flute_notes = [];
@@ -138,6 +138,7 @@ function draw() {
 	  	textSize(70);
 	  	fill(255, 204, 0);
 		text('Click One', width / 2, 80 );
+		square_spawn = 200;
 
 		stroke(255, 204, 0);
 		strokeWeight(9);

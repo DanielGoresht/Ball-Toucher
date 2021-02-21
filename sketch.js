@@ -235,7 +235,7 @@ function mousePressed()
 	else if (game_phase == 1)
 	{
 		score = 0;
-		random_theme = Math.floor(random(0, themes.length));
+
 
 		if (mouseX > windowWidth*.2 - 400/2 &&
 			mouseX < windowWidth*.2 + 400/2 && 
@@ -301,6 +301,7 @@ function mousePressed()
 	else if (game_phase == 3)
 	{
 		game_over.stop();
+		random_theme = Math.floor(random(0, themes.length));
 		game_phase = 1;
 	}
 }

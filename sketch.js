@@ -564,7 +564,7 @@ function createSlingBall() {
 }
 
 function createSprayBall() {
-	if (random(1,100 - score/5) < spray_chance)
+	if (random(1,100 - score) < spray_chance)
 	{
 
 		let size = random(10, 40 + score/8);

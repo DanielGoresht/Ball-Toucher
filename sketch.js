@@ -95,7 +95,7 @@ function reduce()
 
 function draw() {
 
-	background(255, 255, 255, fade);
+	background(0, 0, 0, fade);
 
 
 	if (game_phase == 0)
@@ -473,7 +473,7 @@ function createSquare() {
 		width: w,
 		x: x,
 		y: y,
-		xspeed: random(-0.2, 0.2),
+		xspeed: random(-2.2, 2.2),
 		yspeed: random(1, 1.5),
 		color: color(255, random(((4-hp)*33)- 33, (4-hp)*33), (4-hp)*60),
 		hp: hp

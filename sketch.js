@@ -6,7 +6,7 @@ var debrees = [];
 var game_phase = 0;
 var player_hp = 1;
 var gun;
-var spray_chance = 10;
+var spray_chance = 15;
 var damage_modifier = 1;
 var speed_modifier = 1;
 var size_modifier = 1;
@@ -79,7 +79,10 @@ function setup() {
 	createCanvas(windowWidth, windowHeight);
 	masterVolume(0.3);
 	rectMode(CENTER);
-	fade = 0
+	fade = 0;
+	myFont = loadFont('MontereyFLF-Bold.ttf');
+	textFont(myFont);
+
 }
 
 function reduce()
@@ -153,7 +156,7 @@ function draw() {
 		fill(255, 204, 0);
 		textSize(18);
 		noStroke();
-		text('Click as fast as you to fire balls upwards',windowWidth*.2, windowHeight/2 + 80);
+		text('Click as fast as you can to fire balls',windowWidth*.2, windowHeight/2 + 80);
 		text('Click and hold to fire at random',windowWidth*.5, windowHeight/2 + 80);
 		text('Click and darg to fire a shot',windowWidth*.8, windowHeight/2 + 80);
 
@@ -216,7 +219,7 @@ function mousePressed()
 			setTimeout(reduce(),15000);
 			gun = "updoot";
 			game_phase = 2;
-			
+
 		}
 		else if (mouseX > windowWidth*.5 - 400/2 &&
 			mouseX < windowWidth*.5 + 400/2 && 
@@ -296,7 +299,7 @@ function createUpBall() {
 		decay: 0.05
 
 	}
-	notes[Math.floor(random(0, notes.length))].play();
+	//notes[Math.floor(random(0, notes.length))].play();
 	balls.push(ball);
 }
 

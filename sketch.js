@@ -153,11 +153,11 @@ function draw() {
 			mouseY > windowHeight/2 - 600/2 &&
 			mouseY < windowHeight/2 + 600/2)
 		{
-			fill(247, 35, 35)
+			fill(255, 54, 121)
 		}
 		else
 		{
-			fill(255, 42, 80)
+			fill(247, 35, 35)
 		}
 		rect(windowWidth*.2,windowHeight/2,400,600);
 
@@ -166,11 +166,11 @@ function draw() {
 			mouseY > windowHeight/2 - 600/2 &&
 			mouseY < windowHeight/2 + 600/2)
 		{
-			fill(247, 35, 35)
+			fill(255, 54, 121)
 		}
 		else
 		{
-			fill(255, 42, 80)
+			fill(247, 35, 35)
 		}
 		
 		rect(windowWidth*.5,windowHeight/2,400,600);
@@ -180,11 +180,11 @@ function draw() {
 			mouseY > windowHeight/2 - 600/2 &&
 			mouseY < windowHeight/2 + 600/2)
 		{
-			fill(247, 35, 35)
+			fill(255, 54, 121)
 		}
 		else
 		{
-			fill(255, 42, 80)
+			fill(247, 35, 35)
 		}
 
 		rect(windowWidth*.8,windowHeight/2,400,600);

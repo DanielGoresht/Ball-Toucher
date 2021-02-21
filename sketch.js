@@ -5,6 +5,7 @@ var debrees = [];
 
 var game_phase = 0;
 var player_hp = 1;
+var score;
 var gun;
 var spray_chance = 15;
 var damage_modifier = 1;
@@ -184,14 +185,27 @@ function draw() {
 	else if (game_phase == 3)
 	{
 		textAlign(CENTER);
+
+		fill(255, 204, 0);
+		textSize(70);
+		text('Score: ' + score, windowWidth / 2, windowHeight / 2 - 170);
+		textSize(20);
 		textSize(100);
-		textStyle(BOLD);
+
 		fill(42, 230, 21);
 
+
+
 		text('Game Over', windowWidth / 2, windowHeight / 2 - 70);
+		fill(42, 230, 21, fade);
+		textSize(30);
+		text('click to play again', width / 2, height / 2 );
+		if (fade<0) fadeAmount=1; 
+		fade += fadeAmount; 
+		if (fade>255) fadeAmount=-10; 
+		textSize(15);
 		fill(255, 204, 0);
-		textSize(20);
-		text('Created By: Daniel Goresht', windowWidth / 2, windowHeight / 2 );
+		text('Created By: Dan', windowWidth / 2, windowHeight / 2 + 150 );
 
 
 	}
@@ -201,6 +215,7 @@ function mousePressed()
 {
 	if (game_phase == 0)
 	{
+		
 		piano_notes[0].play();
 		piano_notes[2].play();
 
@@ -210,7 +225,7 @@ function mousePressed()
 
 	else if (game_phase == 1)
 	{
-
+		score = 0;
 
 		if (mouseX > windowWidth*.2 - 400/2 &&
 			mouseX < windowWidth*.2 + 400/2 && 
@@ -272,6 +287,10 @@ function mousePressed()
 			slingshot_starty = mouseY;
 			
 		}	
+	}
+	else if (game_phase == 3)
+	{
+		game_phase = 1;
 	}
 }
 
@@ -548,6 +567,7 @@ function drawBalls()
 					//explode.play();
 					piano_notes[Math.floor(random(0, piano_notes.length))].play();
 					flute_notes[Math.floor(random(0, flute_notes.length))].play();
+					score ++;
 					squares.splice(j, 1);
 				}
 				 balls[i].height /= 2;

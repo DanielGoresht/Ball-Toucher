@@ -114,7 +114,7 @@ function draw() {
 		textStyle(BOLD);
 		fill(42, 230, 21);
 
-		text('Ball Toucher', windowWidth / 2, windowHeight / 2 - 70);
+		text('Musical Squares', windowWidth / 2, windowHeight / 2 - 70);
 		fill(255, 204, 0, fade);
 		textSize(30);
 		text('click to start', width / 2, height / 2 );

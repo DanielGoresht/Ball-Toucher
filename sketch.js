@@ -140,10 +140,47 @@ function draw() {
 		text('Click One', width / 2, 80 );
 
 		stroke(255, 204, 0);
-		fill(255, 42, 80)
 		strokeWeight(9);
+
+		if (mouseX > windowWidth*.2 - 400/2 &&
+			mouseX < windowWidth*.2 + 400/2 && 
+			mouseY > windowHeight/2 - 600/2 &&
+			mouseY < windowHeight/2 + 600/2)
+		{
+			fill(247, 35, 35)
+		}
+		else
+		{
+			fill(255, 42, 80)
+		}
 		rect(windowWidth*.2,windowHeight/2,400,600);
+
+		if (mouseX > windowWidth*.5 - 400/2 &&
+			mouseX < windowWidth*.5 + 400/2 && 
+			mouseY > windowHeight/2 - 600/2 &&
+			mouseY < windowHeight/2 + 600/2)
+		{
+			fill(247, 35, 35)
+		}
+		else
+		{
+			fill(255, 42, 80)
+		}
+		
 		rect(windowWidth*.5,windowHeight/2,400,600);
+
+		if (mouseX > windowWidth*.8 - 400/2 &&
+			mouseX < windowWidth*.8 + 400/2 && 
+			mouseY > windowHeight/2 - 600/2 &&
+			mouseY < windowHeight/2 + 600/2)
+		{
+			fill(247, 35, 35)
+		}
+		else
+		{
+			fill(255, 42, 80)
+		}
+
 		rect(windowWidth*.8,windowHeight/2,400,600);
 		fill(42, 230, 21);
 

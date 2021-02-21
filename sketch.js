@@ -299,7 +299,6 @@ function mousePressed()
 	{
 		if (gun == "updoot")
 		{
-			//createUpBall();
 			createUpBall();
 		}
 		else if (gun == "slingshot")
@@ -309,7 +308,7 @@ function mousePressed()
 			
 		}	
 	}
-	else if (game_phase == 3)
+	else if (game_phase == 3 && balls.length > 50)
 	{
 		game_over.stop();
 		random_theme = Math.floor(random(0, themes.length));

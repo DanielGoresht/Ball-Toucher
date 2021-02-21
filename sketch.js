@@ -70,9 +70,6 @@ function preload() {
 	 themes.push(loadSound('audio/theme_piano.wav'));
 	 themes.push(loadSound('audio/theme_flute.wav'));
 	
-	 // ding = loadSound('audio/ding3.wav');
-	 // hit = loadSound('audio/hit.wav');
-	 // explode = loadSound('audio/explode2.wav');
 }
 
 function setup() {
@@ -88,7 +85,7 @@ function setup() {
 function reduce()
 {
 	square_spawn --;
-	setTimeout(reduce,15000);
+	setTimeout(reduce,20000);
 }
 
 function draw() {
@@ -161,13 +158,11 @@ function draw() {
 		text('Click and darg to fire a shot',windowWidth*.8, windowHeight/2 + 80);
 
 	}
-	else
+	else if (game_phase == 2)
 	{
-
 		if (random(0, 200) > square_spawn) {
 			createSquare();
 			//bongo[Math.floor(random(0, bongo.length))].play();
-			
 		}
 
 		if (mouseIsPressed && gun == 'spray_n_pray') {
@@ -185,6 +180,18 @@ function draw() {
 			strokeWeight(3);
 			line(mouseX,mouseY, slingshot_startx,slingshot_starty);
 		}
+	}
+	else if (game_phase == 3)
+	{
+		textAlign(CENTER);
+		textSize(100);
+		textStyle(BOLD);
+		fill(42, 230, 21);
+
+		text('Game Over', windowWidth / 2, windowHeight / 2 - 70);
+		fill(255, 204, 0);
+		textSize(20);
+		text('Created By: Daniel Goresht', windowWidth / 2, windowHeight / 2 );
 
 
 	}
@@ -199,9 +206,8 @@ function mousePressed()
 
 		game_phase = 1;
 		//empty squares
-
-
 	}
+
 	else if (game_phase == 1)
 	{
 
@@ -216,7 +222,7 @@ function mousePressed()
 			piano_notes[4].play();
 			squares = [];
 			themes[0].stop();
-			setTimeout(reduce(),15000);
+			reduce();
 			gun = "updoot";
 			game_phase = 2;
 
@@ -231,7 +237,7 @@ function mousePressed()
 			piano_notes[4].play();
 			squares = [];
 			themes[0].stop();
-			setTimeout(reduce(),15000);
+			reduce();
 			gun = "spray_n_pray";
 			game_phase = 2;
 			
@@ -246,13 +252,13 @@ function mousePressed()
 			piano_notes[4].play();
 			squares = [];
 			themes[0].stop();
-			setTimeout(reduce(),15000);
+			reduce();
 			gun = "slingshot";
 			game_phase = 2;
 			
 		}
-		
 	}
+
 	else if (game_phase == 2)
 	{
 		if (gun == "updoot")
@@ -299,7 +305,7 @@ function createUpBall() {
 		decay: 0.05
 
 	}
-	//notes[Math.floor(random(0, notes.length))].play();
+	notes[Math.floor(random(0, notes.length))].play();
 	balls.push(ball);
 }
 
@@ -423,7 +429,7 @@ function drawSquares()
 			{
 
 				bongo[Math.floor(random(0, bongo.length))].play();
-				//alert("GAME OVER");
+				game_phase = 3;
 			}			
 		}
 		else

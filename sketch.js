@@ -5,7 +5,7 @@ var debrees = [];
 
 var game_phase = 0;
 var player_hp = 1;
-var score;
+var score = 0;
 var gun;
 var spray_chance = 15;
 var damage_modifier = 1;
@@ -13,7 +13,7 @@ var speed_modifier = 1;
 var size_modifier = 1;
 var decay_modifier = 1;
 var spray_speed = 1;
-var square_spawn;
+var square_spawn =1;
 var notes = [];
 var piano_notes = [];
 var flute_notes = [];
@@ -23,6 +23,9 @@ var fadeAmount = 2;
 var slingshot_startx;
 var slingshot_starty;
 var random_theme;
+var nightmode = false;
+var nightmode_timer = 0;
+
 
 var fade = -10;
 
@@ -87,17 +90,19 @@ function setup() {
 
 }
 
-function reduce()
-{
-	square_spawn --;
-	setTimeout(reduce,20000);
-}
 
 function draw() {
 
-	background(0, 0, 0, fade);
 
-
+	if (nightmode == true)
+	{
+		background(0, 0, 0 , 25);
+	}
+	else 
+	{
+		background(255, 255, 255);
+	}
+	
 	if (game_phase == 0)
 	{
 	  if (!themes[random_theme].isPlaying()) {
@@ -107,6 +112,7 @@ function draw() {
 		if (random(0, 200) > 10) {
 			createSquare();
 		}
+
 		drawSquares();
 
 		textAlign(CENTER);
@@ -138,7 +144,6 @@ function draw() {
 	  	textSize(70);
 	  	fill(255, 204, 0);
 		text('Click One', width / 2, 80 );
-		square_spawn = 200;
 
 		stroke(255, 204, 0);
 		strokeWeight(9);
@@ -203,10 +208,15 @@ function draw() {
 	}
 	else if (game_phase == 2)
 	{
-		if (random(0, 200) > square_spawn) {
+		if (random(0, 200) < score/10+ 1) {
 			createSquare();
 			//bongo[Math.floor(random(0, bongo.length))].play();
 		}
+		if (random(0, 2000) >= 1999 && score >= 15)
+		{
+			createNightSquare();
+		}
+
 
 		if (mouseIsPressed && gun == 'spray_n_pray') {
 
@@ -216,6 +226,9 @@ function draw() {
 		drawSquares();
 		drawDebree();
 		drawBalls();
+		fill(255, 204, 0);
+		textSize(25);
+		text('Score: ' + score,80,50);
 
 		if ( gun == "slingshot" && slingshot_startx != null)
 		{
@@ -281,8 +294,10 @@ function mousePressed()
 
 	else if (game_phase == 1)
 	{
+
 		score = 0;
 		balls = [];
+		square_spawn = 1;
 
 
 
@@ -296,7 +311,7 @@ function mousePressed()
 			piano_notes[4].play();
 			squares = [];
 			themes[random_theme].stop();
-			reduce();
+
 			gun = "updoot";
 			game_phase = 2;
 			squares = [];
@@ -312,7 +327,7 @@ function mousePressed()
 			piano_notes[4].play();
 			squares = [];
 			themes[random_theme].stop();
-			reduce();
+
 			gun = "spray_n_pray";
 			game_phase = 2;
 			squares = [];
@@ -328,7 +343,7 @@ function mousePressed()
 			piano_notes[4].play();
 			squares = [];
 			themes[random_theme].stop();
-			reduce();
+
 			gun = "slingshot";
 			game_phase = 2;
 			squares = [];
@@ -351,6 +366,8 @@ function mousePressed()
 	}
 	else if (game_phase == 3 && balls.length > 50)
 	{
+		score = 0;
+		nightmode = false;
 		game_over.stop();
 		random_theme = Math.floor(random(0, themes.length));
 		game_phase = 1;
@@ -373,7 +390,7 @@ function mouseReleased()
 
 
 function createUpBall() {
-	let size = random(10, 15);
+	let size = random(10 + score/5, 15 + score/5);
 	ball =
 	{
 		height: size,
@@ -381,14 +398,71 @@ function createUpBall() {
 		x: mouseX,
 		y: mouseY,
 		xspeed: random(-0.4, 0.4),
-		yspeed: random(-10, -5),
+		yspeed: random(-10 -score/10, -5 -score/10),
 		color: color(random(0, 200), random(250, 255), random(0, 200)),
-		damage: 1 * damage_modifier,
-		decay: 0.05
+		damage: 1 + score/100,
+		decay: 0.05 + score/1000
 
 	}
 	notes[Math.floor(random(0, notes.length))].play();
 	balls.push(ball);
+
+	if (score > 50)
+	{
+		ball =
+		{
+			height: score/10,
+			width: score/10,
+			x: mouseX,
+			y: mouseY,
+			xspeed: random(-4, 4),
+			yspeed: random(-10 -score/10, -5 -score/10),
+			color: color(random(0, 200), random(250, 255), random(0, 200)),
+			damage: 1 + score/50,
+			decay: 0.05
+
+		}
+
+		balls.push(ball);
+	}
+
+	if (score > 100)
+	{
+		ball =
+		{
+			height: score/10,
+			width: score/10,
+			x: mouseX,
+			y: mouseY,
+			xspeed: random(-4, 4),
+			yspeed: random(-10 -score/10, -5 -score/10),
+			color: color(random(0, 200), random(250, 255), random(0, 200)),
+			damage: 1 + score/100,
+			decay: 0.05
+
+		}
+
+		balls.push(ball);
+	}
+
+	if (score > 200)
+	{
+		ball =
+		{
+			height: score/10,
+			width: score/10,
+			x: mouseX,
+			y: mouseY,
+			xspeed: random(-4, 4),
+			yspeed: random(-10 -score/10, -5 -score/10),
+			color: color(random(0, 200), random(250, 255), random(0, 200)),
+			damage: 1 + score/100,
+			decay: 0.05
+
+		}
+
+		balls.push(ball);
+	}
 }
 
 function createGameOverBall() {
@@ -411,10 +485,11 @@ function createGameOverBall() {
 
 function createSlingBall() {
 	let size = random(40, 60);
+
 	ball =
 	{
-		height: size,
-		width: size,
+		height: size + score/3,
+		width: size + score/3,
 		x: mouseX,
 		y: mouseY,
 		xspeed: ((slingshot_startx - mouseX)/windowWidth)*50,
@@ -427,45 +502,101 @@ function createSlingBall() {
 	notes[Math.floor(random(0, notes.length))].play();
 	balls.push(ball);
 
+	if (score > 50)
+	{
+		ball2 =
+		{
+			height: score/2,
+			width: score/2,
+			x: mouseX,
+			y: mouseY,
+			xspeed: (-(slingshot_startx - mouseX)/windowWidth)*50,
+			yspeed: (-(slingshot_starty - mouseY)/windowWidth)*50,
+			color: color(random(0, 200), random(250, 255), random(0, 200)),
+			damage: 2 * damage_modifier,
+			decay: 0.10
+
+		}
+
+		balls.push(ball2);
+	}
+
+	if (score > 100)
+	{
+		ball3 =
+		{
+			height: score/2,
+			width: score/2,
+			x: mouseX,
+			y: mouseY,
+			xspeed: ((-(slingshot_startx - mouseX)/windowWidth)*50)-3,
+			yspeed: ((-(slingshot_starty - mouseY)/windowWidth)*50)+3,
+			color: color(random(0, 200), random(250, 255), random(0, 200)),
+			damage: 1 * damage_modifier,
+			decay: 0.10
+
+		}
+
+		balls.push(ball3);
+
+	}
+
+	if (score > 200)
+	{
+		ball4 =
+		{
+			height: score/2,
+			width: score/2,
+			x: mouseX,
+			y: mouseY,
+			xspeed: ((-(slingshot_startx - mouseX)/windowWidth)*50)+3,
+			yspeed: ((-(slingshot_starty - mouseY)/windowWidth)*50)-3,
+			color: color(random(0, 200), random(250, 255), random(0, 200)),
+			damage: 1 * damage_modifier,
+			decay: 0.10
+
+		}
+
+		balls.push(ball4);
+	}
+
+
 }
 
 function createSprayBall() {
-	if (random(1,100) < spray_chance)
+	if (random(1,100 - score/5) < spray_chance)
 	{
 
-		let size = random(10, 40);
+		let size = random(10, 40 + score/8);
 		ball =
 		{
 			height: size,
 			width: size,
 			x: mouseX,
 			y: mouseY,
-			xspeed: random(-5, 5),
-			yspeed: random(-5, 5),
+			xspeed: random(-10 - score/10, 10 + score/10),
+			yspeed: random(-10 - score/10, 10 + score/10),
 			color: color(random(0, 50), random(250, 255), random(100, 200)),
 			damage: 1 * damage_modifier,
 			decay: random(0.05, 0.5)
 
 		}
-		// let playbackRate = map((mouseX + mouseY) / 2.5, 0.01, width, 1.3, 0);
-		// playbackRate = constrain(playbackRate, 0.01, 4);
-		// var rand = Math.floor(random(0, notes.length -1));
-		// notes[rand].rate(playbackRate);
 		notes[Math.floor(random(0, notes.length))].play();
 		balls.push(ball);
 	}
 }
 
-function createSquare() {
-	let h = random(30, 200);
-	let w = random(30, 200);
+
+function createNightSquare()
+{
+	let h = random(30, 80);
+	let w = random(30, 80);
 	let x;
 	let y;
 
 	x = random(0, windowWidth);
 	y = -h+10;
-	let hp = Math.floor(random(1,5));
-
+	hp = 10;
 
 	square =
 	{
@@ -475,8 +606,36 @@ function createSquare() {
 		y: y,
 		xspeed: random(-2.2, 2.2),
 		yspeed: random(1, 1.5),
+		color: color(56, 155, 245),
+		hp: hp,
+		special: 'nightmode'
+	}
+	squares.push(square);
+
+}
+
+
+function createSquare() {
+	let h = random(30, 200);
+	let w = random(30, 200);
+	let x;
+	let y;
+
+	x = random(0, windowWidth);
+	y = -h+10;
+	let hp = Math.floor(random(1,5 + score /10));
+
+	square =
+	{
+		height: h,
+		width: w,
+		x: x,
+		y: y,
+		xspeed: random(-0.5 - score/30, 0.5+ score/30),
+		yspeed: random(1, 1.5 + score/100),
 		color: color(255, random(((4-hp)*33)- 33, (4-hp)*33), (4-hp)*60),
-		hp: hp
+		hp: hp,
+		special: 'none'
 	}
 	squares.push(square);
 }
@@ -510,12 +669,9 @@ function drawSquares()
 	//draw squares
 	for (let i = 0; i < squares.length; i++) {
 
-
-
 		if (squares[i].x - squares[i].width / 2 < 0 || squares[i].x + squares[i].width/2 > width) {
 			 squares[i].xspeed *= -1;
 		}
-
 
 		squares[i].x = squares[i].x + squares[i].xspeed;
 		squares[i].y = squares[i].y + squares[i].yspeed;
@@ -605,39 +761,50 @@ function drawBalls()
 				balls[i].y + balls[i].height / 2 > squares[j].y - squares[j].height / 2 &&
 				balls[i].y - balls[i].height / 2 < squares[j].y + squares[j].height / 2) {
 				//step back and check if it was on the side (left or right)
-				if (balls[i].x + balls[i].width / 2 > squares[j].x - squares[j].width / 2 &&
-					balls[i].x - balls[i].width / 2 < squares[j].x + squares[j].width / 2 &&
-					balls[i].y + balls[i].height / 2 - balls[i].yspeed > squares[j].y - squares[j].height / 2 - squares[j].yspeed &&
-					balls[i].y - balls[i].height / 2 - balls[i].yspeed < squares[j].y + squares[j].height / 2 - squares[j].yspeed) {
-					balls[i].xspeed *= -1;
-					balls[i].x += balls[i].xspeed;
-				}
-				//check if it was top or bottom
-				else {
-					balls[i].yspeed *= -1;
-					if (squares[j].yspeed / 2 > balls[i].yspeed && balls[i].yspeed < 0) {
-						balls[i].yspeed = squares[j].yspeed - balls[i].yspeed;
-						balls[i].y += balls[i].yspeed;
-					}
-					else {
-						balls[i].y += balls[i].yspeed;
-					}
+				if (nightmode == false)
+				{			
+					if (balls[i].x + balls[i].width / 2 > squares[j].x - squares[j].width / 2 &&
+						balls[i].x - balls[i].width / 2 < squares[j].x + squares[j].width / 2 &&
+						balls[i].y + balls[i].height / 2 - balls[i].yspeed > squares[j].y - squares[j].height / 2 - squares[j].yspeed &&
+						balls[i].y - balls[i].height / 2 - balls[i].yspeed < squares[j].y + squares[j].height / 2 - squares[j].yspeed) {
 
-				}
-				while (balls[i].x + balls[i].width / 2 > squares[j].x - squares[j].width / 2 && balls[i].x - balls[i].width / 2 < squares[j].x + squares[j].width / 2 && balls[i].y + balls[i].height / 2 > squares[j].y - squares[j].height / 2 && balls[i].y - balls[i].height / 2 < squares[j].y + squares[j].height / 2) {
-					balls[i].x += balls[i].xspeed;
-					if (balls[i].y > squares[j].y) {
-						balls[i].y += 1;
+						balls[i].xspeed *= -1;
+						balls[i].x += balls[i].xspeed;
 					}
+					//check if it was top or bottom
 					else {
-						balls[i].y -= 1;
-					}
+						balls[i].yspeed *= -1;
+						if (squares[j].yspeed / 2 > balls[i].yspeed && balls[i].yspeed < 0) {
+							balls[i].yspeed = squares[j].yspeed - balls[i].yspeed;
+							balls[i].y += balls[i].yspeed;
+						}
+						else {
+							balls[i].y += balls[i].yspeed;
+						}
 
-				}
-				squares[j].hp -= balls[i].damage;
-				if (squares[j].hp > 0)
+					}
+					while (balls[i].x + balls[i].width / 2 > squares[j].x - squares[j].width / 2 && balls[i].x - balls[i].width / 2 < squares[j].x + squares[j].width / 2 && balls[i].y + balls[i].height / 2 > squares[j].y - squares[j].height / 2 && balls[i].y - balls[i].height / 2 < squares[j].y + squares[j].height / 2) {
+						balls[i].x += balls[i].xspeed;
+						if (balls[i].y > squares[j].y) {
+							balls[i].y += 1;
+						}
+						else {
+							balls[i].y -= 1;
+						}
+
+					}
+					squares[j].hp -= balls[i].damage;
+				 }
+				if (squares[j].hp > 0 && nightmode == false)
 				{
-					squares[j].color = color(255, random(((4-squares[j].hp)*50)- 33, (4-squares[j].hp)*50), (4-squares[j].hp)*60);
+					if(squares[j].special == 'none')
+					{
+						squares[j].color = color(255, random(((4-squares[j].hp)*50)- 33, (4-squares[j].hp)*50), (4-squares[j].hp)*60);
+					}
+					else if (squares[j].special == 'nightmode')
+					{
+						squares[j].color = color(56+100/squares[j].hp, 180 - squares[j].hp, 245 - squares[j].hp * 2);
+					}			
 
 
 					flute_notes[Math.floor(random(0, flute_notes.length))].play();
@@ -647,15 +814,39 @@ function drawBalls()
 					createDebree(squares[j].color, squares[j].x, squares[j].y, squares[j].width);
 					//explode.rate(20/(balls[i].height/2));
 					//explode.play();
-					//piano_notes[Math.floor(random(0, piano_notes.length))].play();
+					if (nightmode == true)
+					{
+						piano_notes[Math.floor(random(0, piano_notes.length))].play();
+					}
+					//
 					flute_notes[Math.floor(random(0, flute_notes.length))].play();
 					flute_notes[Math.floor(random(0, flute_notes.length))].play();
 					flute_notes[Math.floor(random(0, flute_notes.length))].play();
 					score ++;
+					if (squares[j].special == 'nightmode')
+					{
+						nightmode = true;
+						if (nightmode_timer == 0)
+						{
+							nightmode_timer += 8;
+							timeNightmode();
+						}
+						else
+						{
+							nightmode_timer += 8;
+						}
+						
+						
+						//setTimeout(function(){ nightmode = false; }, 3000);
+					}
 					squares.splice(j, 1);
 				}
-				 balls[i].height /= 2;
-		  		 balls[i].width /= 2;
+				if (nightmode == false)
+				{
+					balls[i].height /= 1.5;
+		  		 	balls[i].width /= 1.5;
+				}
+
 			}
 		}
 
@@ -674,6 +865,21 @@ function drawBalls()
 		ellipse(balls[i].x, balls[i].y, balls[i].width, balls[i].height);
 		}
 	}
+}
+
+function timeNightmode()
+{
+	console.log(nightmode_timer);
+	if (nightmode_timer == 0)
+	{
+		nightmode = false;
+	}
+	else 
+	{
+		nightmode_timer --;
+		setTimeout(timeNightmode,1000);
+	}
+
 }
 
 function windowResized() {

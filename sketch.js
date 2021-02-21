@@ -193,6 +193,12 @@ function draw() {
 			setTimeout(game_over.play(),1000);
 			
 		}
+		if(balls.length < 500)
+		{
+		 createGameOverBall();
+		}
+
+		drawBalls();
 		textAlign(CENTER);
 
 		fill(255, 204, 0);
@@ -204,11 +210,14 @@ function draw() {
 		fill(42, 230, 21);
 
 
-
+		stroke(255, 204, 0);
+		strokeWeight(10);
 		text('Game Over', windowWidth / 2, windowHeight / 2 - 70);
 		fill(42, 230, 21, fade);
+		noStroke();
 		textSize(30);
 		text('click to play again', width / 2, height / 2 +20);
+
 		if (fade<0) fadeAmount=1; 
 		fade += fadeAmount; 
 		if (fade>255) fadeAmount=-10; 
@@ -235,6 +244,8 @@ function mousePressed()
 	else if (game_phase == 1)
 	{
 		score = 0;
+		balls = [];
+		squares = [];
 
 
 		if (mouseX > windowWidth*.2 - 400/2 &&
@@ -337,6 +348,24 @@ function createUpBall() {
 
 	}
 	notes[Math.floor(random(0, notes.length))].play();
+	balls.push(ball);
+}
+
+function createGameOverBall() {
+	let size = random(1, 30);
+	ball =
+	{
+		height: size,
+		width: size,
+		x: windowWidth/2,
+		y: windowHeight/2,
+		xspeed: random(-10, 10),
+		yspeed: random(-10, 10),
+		color: color(random(0, 200), random(250, 255), random(0, 200)),
+		damage: 1 * damage_modifier,
+		decay: 0.00
+	}
+
 	balls.push(ball);
 }
 
@@ -460,6 +489,8 @@ function drawSquares()
 
 				bongo[Math.floor(random(0, bongo.length))].play();
 				game_phase = 3;
+				balls = [];
+				squares = [];
 			}			
 		}
 		else

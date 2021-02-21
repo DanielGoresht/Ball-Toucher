@@ -623,7 +623,7 @@ function createSquare() {
 
 	x = random(0, windowWidth);
 	y = -h+10;
-	let hp = Math.floor(random(1,5 + score /10));
+	let hp = Math.floor(random(1,3 + score /10));
 
 	square =
 	{

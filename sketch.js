@@ -22,6 +22,7 @@ var bongo = []
 var fadeAmount = 2;
 var slingshot_startx;
 var slingshot_starty;
+var random_theme;
 
 var fade = -10;
 
@@ -70,6 +71,8 @@ function preload() {
 	 themes.push(loadSound('audio/theme_string.wav'));
 	 themes.push(loadSound('audio/theme_piano.wav'));
 	 themes.push(loadSound('audio/theme_flute.wav'));
+
+	 game_over = loadSound('audio/game_over.wav');
 	
 }
 
@@ -80,6 +83,7 @@ function setup() {
 	fade = 0;
 	myFont = loadFont('MontereyFLF-Bold.ttf');
 	textFont(myFont);
+	random_theme = Math.floor(random(0, themes.length));
 
 }
 
@@ -96,8 +100,8 @@ function draw() {
 
 	if (game_phase == 0)
 	{
-	  if (!themes[0].isPlaying()) {
-	      themes[0].play();
+	  if (!themes[random_theme].isPlaying()) {
+	      themes[random_theme].play();
 	  } 
 
 		if (random(0, 200) > 10) {
@@ -121,8 +125,8 @@ function draw() {
 	}
 	else if (game_phase == 1)
 	{
-		if (!themes[0].isPlaying()) {
-	      themes[0].play();
+		if (!themes[random_theme].isPlaying()) {
+	      themes[random_theme].play();
 	  	} 
 
 		if (random(0, 200) > 10) {
@@ -184,6 +188,11 @@ function draw() {
 	}
 	else if (game_phase == 3)
 	{
+		if (!game_over.isPlaying())
+		{
+			setTimeout(game_over.play(),1000);
+			
+		}
 		textAlign(CENTER);
 
 		fill(255, 204, 0);
@@ -199,13 +208,13 @@ function draw() {
 		text('Game Over', windowWidth / 2, windowHeight / 2 - 70);
 		fill(42, 230, 21, fade);
 		textSize(30);
-		text('click to play again', width / 2, height / 2 );
+		text('click to play again', width / 2, height / 2 +20);
 		if (fade<0) fadeAmount=1; 
 		fade += fadeAmount; 
 		if (fade>255) fadeAmount=-10; 
-		textSize(15);
+		textSize(25);
 		fill(255, 204, 0);
-		text('Created By: Dan', windowWidth / 2, windowHeight / 2 + 150 );
+		text('Created By: Dan', windowWidth / 2, windowHeight / 2 + 300 );
 
 
 	}
@@ -226,6 +235,7 @@ function mousePressed()
 	else if (game_phase == 1)
 	{
 		score = 0;
+		random_theme = Math.floor(random(0, themes.length));
 
 		if (mouseX > windowWidth*.2 - 400/2 &&
 			mouseX < windowWidth*.2 + 400/2 && 
@@ -236,7 +246,7 @@ function mousePressed()
 			piano_notes[2].play();
 			piano_notes[4].play();
 			squares = [];
-			themes[0].stop();
+			themes[random_theme].stop();
 			reduce();
 			gun = "updoot";
 			game_phase = 2;
@@ -251,7 +261,7 @@ function mousePressed()
 			piano_notes[2].play();
 			piano_notes[4].play();
 			squares = [];
-			themes[0].stop();
+			themes[random_theme].stop();
 			reduce();
 			gun = "spray_n_pray";
 			game_phase = 2;
@@ -266,7 +276,7 @@ function mousePressed()
 			piano_notes[2].play();
 			piano_notes[4].play();
 			squares = [];
-			themes[0].stop();
+			themes[random_theme].stop();
 			reduce();
 			gun = "slingshot";
 			game_phase = 2;
@@ -290,6 +300,7 @@ function mousePressed()
 	}
 	else if (game_phase == 3)
 	{
+		game_over.stop();
 		game_phase = 1;
 	}
 }
@@ -441,7 +452,6 @@ function drawSquares()
 
 				//remove squares that are off screen
 		if (squares[i].y > windowHeight + squares[i].height/2) {
-			console.log(squares[i].color);
 			squares.splice(i, 1);
 			i--;
 			if(game_phase == 2)

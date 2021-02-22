@@ -3,8 +3,6 @@ var balls = [];
 var squares = [];
 var debrees = [];
 
-var game_phase = 0;
-var player_hp = 1;
 var score = 0;
 var gun;
 var spray_chance = 15;
@@ -504,7 +502,7 @@ function createSlingBall() {
 
 	if (score > 50)
 	{
-		ball2 =
+		ball =
 		{
 			height: size/2,
 			width: size/2,
@@ -518,12 +516,12 @@ function createSlingBall() {
 
 		}
 
-		balls.push(ball2);
+		balls.push(ball);
 	}
 
 	if (score > 150)
 	{
-		ball3 =
+		ball =
 		{
 			height: size/2,
 			width: size/2,
@@ -537,13 +535,13 @@ function createSlingBall() {
 
 		}
 
-		balls.push(ball3);
+		balls.push(ball);
 
 	}
 
 	if (score > 300)
 	{
-		ball4 =
+		ball =
 		{
 			height: size/2,
 			width: size/2,
@@ -557,7 +555,7 @@ function createSlingBall() {
 
 		}
 
-		balls.push(ball4);
+		balls.push(ball);
 	}
 
 
@@ -633,7 +631,7 @@ function createSquare() {
 	let x;
 	let y;
 
-	x = random(0, windowWidth);
+	x = random(0 + w/2, windowWidth - w/2);
 	y = -h+10;
 	let hp = Math.floor(random(1,5));
 
@@ -652,7 +650,7 @@ function createSquare() {
 	squares.push(square);
 }
 
-function createDebree(p_color, p_x, p_y, width)
+function createDebree(p_x, p_y, width)
 {
 
 	for (let i = 40; i > 0; i --)
@@ -688,12 +686,7 @@ function drawSquares()
 		squares[i].x = squares[i].x + squares[i].xspeed;
 		squares[i].y = squares[i].y + squares[i].yspeed;
 
-				//remove squares that are off screen
-
-		if (squares[i].y > windowHeight - squares[i].height/2 && game_phase == 2)
-		{
-			bongo[Math.floor(random(0, bongo.length))].play();
-		}
+		//remove squares that are off screen
 		if (squares[i].y > windowHeight + squares[i].height/2) {
 			squares.splice(i, 1);
 			i--;
@@ -829,7 +822,7 @@ function drawBalls()
 				}
 				else
 				{
-					createDebree(squares[j].color, squares[j].x, squares[j].y, squares[j].width);
+					createDebree(squares[j].x, squares[j].y, squares[j].width);
 					//explode.rate(20/(balls[i].height/2));
 					//explode.play();
 					if (nightmode == true)

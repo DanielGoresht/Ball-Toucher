@@ -3,6 +3,7 @@ var balls = [];
 var squares = [];
 var debrees = [];
 
+var game_phase = 0;
 var score = 0;
 var gun;
 var spray_chance = 15;

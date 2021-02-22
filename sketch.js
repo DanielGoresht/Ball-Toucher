@@ -8,10 +8,7 @@ var player_hp = 1;
 var score = 0;
 var gun;
 var spray_chance = 15;
-var damage_modifier = 1;
-var speed_modifier = 1;
-var size_modifier = 1;
-var decay_modifier = 1;
+
 var spray_speed = 1;
 var square_spawn =1;
 var notes = [];
@@ -72,8 +69,8 @@ function preload() {
 	 bongo.push(loadSound('audio/bongo2.wav'));
 
 	 themes.push(loadSound('audio/theme_string.wav'));
-	 themes.push(loadSound('audio/theme_piano.wav'));
-	 themes.push(loadSound('audio/theme_flute.wav'));
+	 // themes.push(loadSound('audio/theme_piano.wav'));
+	 // themes.push(loadSound('audio/theme_flute.wav'));
 
 	 game_over = loadSound('audio/game_over.wav');
 	
@@ -298,6 +295,7 @@ function mousePressed()
 		score = 0;
 		balls = [];
 		square_spawn = 1;
+		spray_chance = 15;
 
 
 
@@ -390,7 +388,7 @@ function mouseReleased()
 
 
 function createUpBall() {
-	let size = random(10 + score/5, 15 + score/5);
+	let size = random(15, 20);
 	ball =
 	{
 		height: size,
@@ -400,64 +398,65 @@ function createUpBall() {
 		xspeed: random(-0.4, 0.4),
 		yspeed: random(-10 -score/10, -5 -score/10),
 		color: color(random(0, 200), random(250, 255), random(0, 200)),
-		damage: 1 + score/100,
-		decay: 0.05 + score/1000
+		damage: 1,
+		decay: 0.05 + score/10000
 
 	}
 	notes[Math.floor(random(0, notes.length))].play();
+
 	balls.push(ball);
 
 	if (score > 50)
 	{
 		ball =
 		{
-			height: score/10,
-			width: score/10,
+			height: size,
+			width: size,
 			x: mouseX,
 			y: mouseY,
-			xspeed: random(-4, 4),
-			yspeed: random(-10 -score/10, -5 -score/10),
+			xspeed: random(-10, 10),
+			yspeed: random(-10 -score/15, -5 -score/15),
 			color: color(random(0, 200), random(250, 255), random(0, 200)),
-			damage: 1 + score/50,
-			decay: 0.05
+			damage: 1,
+			decay: 0.05 + score/10000
 
 		}
 
 		balls.push(ball);
 	}
 
-	if (score > 100)
+	if (score > 150)
 	{
 		ball =
 		{
-			height: score/10,
-			width: score/10,
+			height: size,
+			width: size,
 			x: mouseX,
 			y: mouseY,
-			xspeed: random(-4, 4),
-			yspeed: random(-10 -score/10, -5 -score/10),
+			xspeed: random(-10, 10),
+			yspeed: random(-10 -score/15, -5 -score/15),
 			color: color(random(0, 200), random(250, 255), random(0, 200)),
-			damage: 1 + score/100,
-			decay: 0.05
+			damage: 1,
+			decay: 0.05 + score/10000
 
 		}
 
 		balls.push(ball);
 	}
 
-	if (score > 200)
+	if (score > 300)
 	{
 		ball =
 		{
-			height: score/10,
-			width: score/10,
+			height: size,
+			width: size,
 			x: mouseX,
 			y: mouseY,
-			xspeed: random(-4, 4),
-			yspeed: random(-10 -score/10, -5 -score/10),
+			xspeed: random(-10, 10),
+			yspeed: random(-10 -score/15, -5 -score/15),
 			color: color(random(0, 200), random(250, 255), random(0, 200)),
 			damage: 1 + score/100,
-			decay: 0.05
+			decay: 0.05 + score/10000
 
 		}
 
@@ -476,7 +475,7 @@ function createGameOverBall() {
 		xspeed: random(-10, 10),
 		yspeed: random(-10, 10),
 		color: color(random(0, 200), random(250, 255), random(0, 200)),
-		damage: 1 * damage_modifier,
+		damage: 1,
 		decay: 0.00
 	}
 
@@ -488,32 +487,33 @@ function createSlingBall() {
 
 	ball =
 	{
-		height: size + score/3,
-		width: size + score/3,
+		height: size,
+		width: size,
 		x: mouseX,
 		y: mouseY,
 		xspeed: ((slingshot_startx - mouseX)/windowWidth)*50,
 		yspeed: ((slingshot_starty - mouseY)/windowWidth)*50,
 		color: color(random(0, 200), random(250, 255), random(0, 200)),
-		damage: 2 * damage_modifier,
+		damage: 2,
 		decay: 0.10
 
 	}
 	notes[Math.floor(random(0, notes.length))].play();
+
 	balls.push(ball);
 
 	if (score > 50)
 	{
 		ball2 =
 		{
-			height: score/2,
-			width: score/2,
+			height: size/2,
+			width: size/2,
 			x: mouseX,
 			y: mouseY,
 			xspeed: (-(slingshot_startx - mouseX)/windowWidth)*50,
 			yspeed: (-(slingshot_starty - mouseY)/windowWidth)*50,
 			color: color(random(0, 200), random(250, 255), random(0, 200)),
-			damage: 2 * damage_modifier,
+			damage: 2,
 			decay: 0.10
 
 		}
@@ -521,18 +521,18 @@ function createSlingBall() {
 		balls.push(ball2);
 	}
 
-	if (score > 100)
+	if (score > 150)
 	{
 		ball3 =
 		{
-			height: score/2,
-			width: score/2,
+			height: size/2,
+			width: size/2,
 			x: mouseX,
 			y: mouseY,
 			xspeed: ((-(slingshot_startx - mouseX)/windowWidth)*50)-3,
 			yspeed: ((-(slingshot_starty - mouseY)/windowWidth)*50)+3,
 			color: color(random(0, 200), random(250, 255), random(0, 200)),
-			damage: 1 * damage_modifier,
+			damage: 1,
 			decay: 0.10
 
 		}
@@ -541,12 +541,12 @@ function createSlingBall() {
 
 	}
 
-	if (score > 200)
+	if (score > 300)
 	{
 		ball4 =
 		{
-			height: score/2,
-			width: score/2,
+			height: size/2,
+			width: size/2,
 			x: mouseX,
 			y: mouseY,
 			xspeed: ((-(slingshot_startx - mouseX)/windowWidth)*50)+3,
@@ -564,10 +564,22 @@ function createSlingBall() {
 }
 
 function createSprayBall() {
-	if (random(1,100 - score) < spray_chance)
+	if (random(1,100) < spray_chance)
 	{
+		if (score > 50 && spray_chance == 15)
+		{
+			spray_chance = 20;
+		}
+		else if (score > 150 && spray_chance == 20)
+		{
+			spray_chance = 25;
+		}
+		else if (score > 300 && spray_chance == 25)
+		{
+			spray_chance = 30;
+		}
 
-		let size = random(10, 40 + score/8);
+		let size = random(10, 40);
 		ball =
 		{
 			height: size,
@@ -577,7 +589,7 @@ function createSprayBall() {
 			xspeed: random(-10 - score/10, 10 + score/10),
 			yspeed: random(-10 - score/10, 10 + score/10),
 			color: color(random(0, 50), random(250, 255), random(100, 200)),
-			damage: 1 * damage_modifier,
+			damage: 1,
 			decay: random(0.05, 0.5)
 
 		}
@@ -589,8 +601,8 @@ function createSprayBall() {
 
 function createNightSquare()
 {
-	let h = random(30, 80);
-	let w = random(30, 80);
+	let h = random(30, 200);
+	let w = random(30, 200);
 	let x;
 	let y;
 
@@ -623,7 +635,7 @@ function createSquare() {
 
 	x = random(0, windowWidth);
 	y = -h+10;
-	let hp = Math.floor(random(1,5 + score /20));
+	let hp = Math.floor(random(1,5));
 
 	square =
 	{
@@ -677,6 +689,11 @@ function drawSquares()
 		squares[i].y = squares[i].y + squares[i].yspeed;
 
 				//remove squares that are off screen
+
+		if (squares[i].y > windowHeight - squares[i].height/2 && game_phase == 2)
+		{
+			bongo[Math.floor(random(0, bongo.length))].play();
+		}
 		if (squares[i].y > windowHeight + squares[i].height/2) {
 			squares.splice(i, 1);
 			i--;
@@ -716,6 +733,7 @@ function drawDebree()
 		//remove squares that are off screen
 		if (debrees[i].width < 0) {
 			debrees.splice(i, 1);
+			i--;
 		}
 	}
 }
@@ -840,6 +858,7 @@ function drawBalls()
 						//setTimeout(function(){ nightmode = false; }, 3000);
 					}
 					squares.splice(j, 1);
+					j--;
 				}
 				if (nightmode == false)
 				{

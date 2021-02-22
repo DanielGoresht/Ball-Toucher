@@ -3,7 +3,7 @@ var balls = [];
 var squares = [];
 var debrees = [];
 
-var game_phase = 0;
+var game_phase =0;
 var score = 0;
 var gun;
 var spray_chance = 15;
@@ -26,6 +26,30 @@ var nightmode_timer = 0;
 var fade = -10;
 
 function preload() {
+
+	
+	
+	// let A = new Howl({
+	// 	src: ['audio/A.wav']
+	//   });
+
+	// let B = new Howl({
+	// 	src: ['audio/B.wav']
+	// });
+
+	// let C = new Howl({
+	// 	src: ['audio/A.wav']
+	//   });
+
+	// let D = new Howl({
+	// 	src: ['audio/B.wav']
+	// });
+
+
+
+
+
+
 	 notes.push(loadSound('audio/A.wav'));
 	 notes.push(loadSound('audio/B.wav'));
 	 notes.push(loadSound('audio/C.wav'));
@@ -553,13 +577,9 @@ function createSlingBall() {
 			color: color(random(0, 200), random(250, 255), random(0, 200)),
 			damage: 1 * damage_modifier,
 			decay: 0.10
-
 		}
-
 		balls.push(ball);
 	}
-
-
 }
 
 function createSprayBall() {
@@ -739,6 +759,7 @@ function drawBalls()
 
 
 		balls[i].x = balls[i].x + balls[i].xspeed;
+		balls[i].y = balls[i].y + balls[i].yspeed;
 		//bounce.rate(12/balls[i].height);
 		//check for hitting walls
 		if (balls[i].x + balls[i].width / 2 > width) {
@@ -747,19 +768,18 @@ function drawBalls()
 			// bongo[Math.floor(random(0, bongo.length))].play();
 
 		}
-		if (balls[i].x <= balls[i].width / 2) {
+		else if (balls[i].x <= balls[i].width / 2) {
 			balls[i].x = balls[i].width / 2;
 			balls[i].xspeed *= -1;
 			// bongo[Math.floor(random(0, bongo.length))].play();
 		}
-		balls[i].y = balls[i].y + balls[i].yspeed;
 
-		if (balls[i].y + balls[i].height / 2 > height) {
+		else if (balls[i].y + balls[i].height / 2 > height) {
 			balls[i].y = height - balls[i].height / 2;
 			balls[i].yspeed *= -1;
 			// bongo[Math.floor(random(0, bongo.length))].play();
 		}
-		if (balls[i].y <= balls[i].height / 2) {
+		else if (balls[i].y <= balls[i].height / 2) {
 			balls[i].y = balls[i].height / 2;
 			balls[i].yspeed *= -1
 			// bongo[Math.floor(random(0, bongo.length))].play();
@@ -882,7 +902,6 @@ function drawBalls()
 
 function timeNightmode()
 {
-	console.log(nightmode_timer);
 	if (nightmode_timer == 0)
 	{
 		nightmode = false;

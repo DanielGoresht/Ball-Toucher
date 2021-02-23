@@ -1,7 +1,5 @@
-Fix audio (howler.js)
 Fix wrapping text in gun select
 add final boss
-ballance updoot, too strong
 add victory screen
 disable for mobile users
 

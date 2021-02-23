@@ -1,9 +1,8 @@
-
 var balls = [];
 var squares = [];
 var debrees = [];
 
-var game_phase =0;
+var game_phase = 0;
 var score = 0;
 var gun;
 var spray_chance = 15;
@@ -18,101 +17,253 @@ var bongo = []
 var fadeAmount = 2;
 var slingshot_startx;
 var slingshot_starty;
-var random_theme;
 var nightmode = false;
 var nightmode_timer = 0;
-
 
 var fade = -10;
 
 function preload() {
+//load all the audio files
+	themes.push(
+		new Howl({
+			src: ['audio/theme_string.wav'],
+			volume: 0.5,
+			loop: true
+		}));
 
-	
-	
-	// let A = new Howl({
-	// 	src: ['audio/A.wav']
-	//   });
+	themes.push(
+		new Howl({
+			src: ['audio/game_over.wav'],
+			volume: 0.5,
+			loop: true
+		}));
 
-	// let B = new Howl({
-	// 	src: ['audio/B.wav']
-	// });
+	notes.push(		
+		new Howl({
+			src: ['audio/A.wav'],
+			volume: 0.5
+		}));
 
-	// let C = new Howl({
-	// 	src: ['audio/A.wav']
-	//   });
+	notes.push(		
+		new Howl({
+			src: ['audio/B.wav'],
+			volume: 0.5
+		}));
 
-	// let D = new Howl({
-	// 	src: ['audio/B.wav']
-	// });
+	notes.push(		
+		new Howl({
+			src: ['audio/C.wav'],
+			volume: 0.5
+		}));
+
+	notes.push(		
+		new Howl({
+			src: ['audio/D.wav'],
+			volume: 0.5
+		}));
+
+	notes.push(		
+		new Howl({
+			src: ['audio/E.wav'],
+			volume: 0.5
+		}));
+
+	notes.push(		
+		new Howl({
+			src: ['audio/F.wav'],
+			volume: 0.5
+		}));
+
+	notes.push(		
+		new Howl({
+			src: ['audio/G.wav'],
+			volume: 0.5
+		}));
+
+	notes.push(		
+		new Howl({
+			src: ['audio/high_a.wav'],
+			volume: 0.5
+		}));
+
+	notes.push(		
+		new Howl({
+			src: ['audio/high_b.wav'],
+			volume: 0.5
+		}));
+
+	notes.push(		
+		new Howl({
+			src: ['audio/high_c.wav'],
+			volume: 0.5
+		}));
+
+	notes.push(		
+		new Howl({
+			src: ['audio/high_d.wav'],
+			volume: 0.5
+		}));
+
+	notes.push(		
+		new Howl({
+			src: ['audio/high_e.wav'],
+			volume: 0.5
+		}));
+
+	notes.push(		
+		new Howl({
+			src: ['audio/high_f.wav'],
+			volume: 0.5
+		}));
+
+	notes.push(		
+		new Howl({
+			src: ['audio/high_g.wav'],
+			volume: 0.5
+		}));
+
+	piano_notes.push(		
+		new Howl({
+			src: ['audio/high_a_piano.wav'],
+			volume: 0.5
+		}));
+
+	piano_notes.push(		
+		new Howl({
+			src: ['audio/high_b_piano.wav'],
+			volume: 0.5
+		}));
+
+	piano_notes.push(		
+		new Howl({
+			src: ['audio/high_c_piano.wav'],
+			volume: 0.5
+		}));
+
+	piano_notes.push(		
+		new Howl({
+			src: ['audio/high_d_piano.wav'],
+			volume: 0.5
+		}));
+
+	piano_notes.push(		
+		new Howl({
+			src: ['audio/high_e_piano.wav'],
+			volume: 0.5
+		}));
+
+	piano_notes.push(		
+		new Howl({
+			src: ['audio/high_f_piano.wav'],
+			volume: 0.5
+		}));
+
+	piano_notes.push(		
+		new Howl({
+			src: ['audio/high_g_piano.wav'],
+			volume: 0.5
+		}));
 
 
+	flute_notes.push(		
+		new Howl({
+			src: ['audio/A_flute.wav'],
+			volume: 0.5
+		}));
 
+	flute_notes.push(		
+		new Howl({
+			src: ['audio/B_flute.wav'],
+			volume: 0.5
+		}));
 
+	flute_notes.push(		
+		new Howl({
+			src: ['audio/C_flute.wav'],
+			volume: 0.5
+		}));
 
+	flute_notes.push(		
+		new Howl({
+			src: ['audio/D_flute.wav'],
+			volume: 0.5
+		}));
 
-	 notes.push(loadSound('audio/A.wav'));
-	 notes.push(loadSound('audio/B.wav'));
-	 notes.push(loadSound('audio/C.wav'));
-	 notes.push(loadSound('audio/D.wav'));
-	 notes.push(loadSound('audio/E.wav'));
-	 notes.push(loadSound('audio/F.wav'));
-	 notes.push(loadSound('audio/G.wav'));
-	 notes.push(loadSound('audio/high_a.wav'));
-	 notes.push(loadSound('audio/high_b.wav'));
-	 notes.push(loadSound('audio/high_c.wav'));
-	 notes.push(loadSound('audio/high_d.wav'));
-	 notes.push(loadSound('audio/high_e.wav'));
-	 notes.push(loadSound('audio/high_f.wav'));
-	 notes.push(loadSound('audio/high_g.wav'));
+	flute_notes.push(		
+		new Howl({
+			src: ['audio/E_flute.wav'],
+			volume: 0.5
+		}));
 
-	 piano_notes.push(loadSound('audio/high_a_piano.wav'));
-	 piano_notes.push(loadSound('audio/high_b_piano.wav'));
-	 piano_notes.push(loadSound('audio/high_c_piano.wav'));
-	 piano_notes.push(loadSound('audio/high_d_piano.wav'));
-	 piano_notes.push(loadSound('audio/high_e_piano.wav'));
-	 piano_notes.push(loadSound('audio/high_f_piano.wav'));
-	 piano_notes.push(loadSound('audio/high_g_piano.wav'));
+	flute_notes.push(		
+		new Howl({
+			src: ['audio/F_flute.wav'],
+			volume: 0.5
+		}));
 
-	 flute_notes.push(loadSound('audio/A_flute.wav'));
-	 flute_notes.push(loadSound('audio/B_flute.wav'));
-	 flute_notes.push(loadSound('audio/C_flute.wav'));
-	 flute_notes.push(loadSound('audio/D_flute.wav'));
-	 flute_notes.push(loadSound('audio/E_flute.wav'));
-	 flute_notes.push(loadSound('audio/F_flute.wav'));
-	 flute_notes.push(loadSound('audio/G_flute.wav'));
-	 flute_notes.push(loadSound('audio/high_a_flute.wav'));
-	 flute_notes.push(loadSound('audio/high_b_flute.wav'));
-	 flute_notes.push(loadSound('audio/high_c_flute.wav'));
-	 flute_notes.push(loadSound('audio/high_d_flute.wav'));
-	 flute_notes.push(loadSound('audio/high_e_flute.wav'));
-	 flute_notes.push(loadSound('audio/high_f_flute.wav'));
-	 flute_notes.push(loadSound('audio/high_g_flute.wav'));
+	flute_notes.push(		
+		new Howl({
+			src: ['audio/G_flute.wav'],
+			volume: 0.5
+		}));
 
-	 bongo.push(loadSound('audio/bongo1.wav'));
-	 bongo.push(loadSound('audio/bongo2.wav'));
+	flute_notes.push(		
+		new Howl({
+			src: ['audio/high_a_flute.wav'],
+			volume: 0.5
+		}));
 
-	 themes.push(loadSound('audio/theme_string.wav'));
-	 // themes.push(loadSound('audio/theme_piano.wav'));
-	 // themes.push(loadSound('audio/theme_flute.wav'));
+	flute_notes.push(		
+		new Howl({
+			src: ['audio/high_b_flute.wav'],
+			volume: 0.5
+		}));
 
-	 game_over = loadSound('audio/game_over.wav');
-	
+	flute_notes.push(		
+		new Howl({
+			src: ['audio/high_c_flute.wav'],
+			volume: 0.5
+		}));
+
+	flute_notes.push(		
+		new Howl({
+			src: ['audio/high_d_flute.wav'],
+			volume: 0.5
+		}));
+
+	flute_notes.push(		
+		new Howl({
+			src: ['audio/high_e_flute.wav'],
+			volume: 0.5
+		}));
+
+	flute_notes.push(		
+		new Howl({
+			src: ['audio/high_f_flute.wav'],
+			volume: 0.5
+		}));
+
+	flute_notes.push(		
+		new Howl({
+			src: ['audio/high_g_flute.wav'],
+			volume: 0.5
+		}));
+
 }
 
 function setup() {
 	createCanvas(windowWidth, windowHeight);
-	masterVolume(0.3);
+
 	rectMode(CENTER);
 	fade = 0;
 	myFont = loadFont('MontereyFLF-Bold.ttf');
 	textFont(myFont);
-	random_theme = Math.floor(random(0, themes.length));
+	themes[0].play();
 
 }
 
 
 function draw() {
-
 
 	if (nightmode == true)
 	{
@@ -122,13 +273,9 @@ function draw() {
 	{
 		background(255, 255, 255);
 	}
-	
+
 	if (game_phase == 0)
 	{
-	  if (!themes[random_theme].isPlaying()) {
-	      themes[random_theme].play();
-	  } 
-
 		if (random(0, 200) > 10) {
 			createSquare();
 		}
@@ -147,22 +294,18 @@ function draw() {
 		if (fade<0) fadeAmount=1; 
 		fade += fadeAmount; 
 		if (fade>255) fadeAmount=-10; 
-		 
+
 	}
 	else if (game_phase == 1)
 	{
-		if (!themes[random_theme].isPlaying()) {
-	      themes[random_theme].play();
-	  	} 
-
 		if (random(0, 200) > 10) {
 			createSquare();
 		}
 		drawSquares();
 
-	  	noStroke();
-	  	textSize(70);
-	  	fill(255, 204, 0);
+		noStroke();
+		textSize(70);
+		fill(255, 204, 0);
 		text('Click One', width / 2, 80 );
 
 		stroke(255, 204, 0);
@@ -192,7 +335,7 @@ function draw() {
 		{
 			fill(247, 35, 35)
 		}
-		
+
 		rect(windowWidth*.5,windowHeight/2,400,600);
 
 		if (mouseX > windowWidth*.8 - 400/2 &&
@@ -259,14 +402,10 @@ function draw() {
 	}
 	else if (game_phase == 3)
 	{
-		if (!game_over.isPlaying())
-		{
-			setTimeout(game_over.play(),1000);
 			
-		}
 		if(balls.length < 500)
 		{
-		 createGameOverBall();
+			createGameOverBall();
 		}
 
 		drawBalls();
@@ -295,8 +434,6 @@ function draw() {
 		textSize(25);
 		fill(255, 204, 0);
 		text('Created By: Dan', windowWidth / 2, windowHeight / 2 + 300 );
-
-
 	}
 }
 
@@ -320,8 +457,6 @@ function mousePressed()
 		square_spawn = 1;
 		spray_chance = 15;
 
-
-
 		if (mouseX > windowWidth*.2 - 400/2 &&
 			mouseX < windowWidth*.2 + 400/2 && 
 			mouseY > windowHeight/2 - 600/2 &&
@@ -331,7 +466,7 @@ function mousePressed()
 			piano_notes[2].play();
 			piano_notes[4].play();
 			squares = [];
-			themes[random_theme].stop();
+			themes[0].stop();
 
 			gun = "updoot";
 			game_phase = 2;
@@ -347,7 +482,7 @@ function mousePressed()
 			piano_notes[2].play();
 			piano_notes[4].play();
 			squares = [];
-			themes[random_theme].stop();
+			themes[0].stop();
 
 			gun = "spray_n_pray";
 			game_phase = 2;
@@ -363,12 +498,11 @@ function mousePressed()
 			piano_notes[2].play();
 			piano_notes[4].play();
 			squares = [];
-			themes[random_theme].stop();
+			themes[0].stop();
 
 			gun = "slingshot";
 			game_phase = 2;
 			squares = [];
-			
 		}
 	}
 
@@ -389,8 +523,8 @@ function mousePressed()
 	{
 		score = 0;
 		nightmode = false;
-		game_over.stop();
-		random_theme = Math.floor(random(0, themes.length));
+		themes[1].stop();
+		themes[0].play();
 		game_phase = 1;
 	}
 }
@@ -429,7 +563,7 @@ function createUpBall() {
 
 	balls.push(ball);
 
-	if (score > 50)
+	if (score > 100)
 	{
 		ball =
 		{
@@ -448,7 +582,7 @@ function createUpBall() {
 		balls.push(ball);
 	}
 
-	if (score > 150)
+	if (score > 200)
 	{
 		ball =
 		{
@@ -467,7 +601,7 @@ function createUpBall() {
 		balls.push(ball);
 	}
 
-	if (score > 300)
+	if (score > 400)
 	{
 		ball =
 		{
@@ -689,7 +823,7 @@ function createDebree(p_x, p_y, width)
 
 		}
 
-	debrees.push(debree)
+		debrees.push(debree)
 
 	}
 }
@@ -701,7 +835,7 @@ function drawSquares()
 	for (let i = 0; i < squares.length; i++) {
 
 		if (squares[i].x - squares[i].width / 2 < 0 || squares[i].x + squares[i].width/2 > width) {
-			 squares[i].xspeed *= -1;
+			squares[i].xspeed *= -1;
 		}
 
 		squares[i].x = squares[i].x + squares[i].xspeed;
@@ -713,11 +847,10 @@ function drawSquares()
 			i--;
 			if(game_phase == 2)
 			{
-
-				bongo[Math.floor(random(0, bongo.length))].play();
 				game_phase = 3;
 				balls = [];
 				squares = [];
+				themes[1].play();
 			}			
 		}
 		else
@@ -793,16 +926,16 @@ function drawBalls()
 				balls[i].y + balls[i].height / 2 > squares[j].y - squares[j].height / 2 &&
 				balls[i].y - balls[i].height / 2 < squares[j].y + squares[j].height / 2) {
 				//step back and check if it was on the side (left or right)
-				if (nightmode == false)
-				{			
-					if (balls[i].x + balls[i].width / 2 > squares[j].x - squares[j].width / 2 &&
-						balls[i].x - balls[i].width / 2 < squares[j].x + squares[j].width / 2 &&
-						balls[i].y + balls[i].height / 2 - balls[i].yspeed > squares[j].y - squares[j].height / 2 - squares[j].yspeed &&
-						balls[i].y - balls[i].height / 2 - balls[i].yspeed < squares[j].y + squares[j].height / 2 - squares[j].yspeed) {
+			if (nightmode == false)
+			{			
+				if (balls[i].x + balls[i].width / 2 > squares[j].x - squares[j].width / 2 &&
+					balls[i].x - balls[i].width / 2 < squares[j].x + squares[j].width / 2 &&
+					balls[i].y + balls[i].height / 2 - balls[i].yspeed > squares[j].y - squares[j].height / 2 - squares[j].yspeed &&
+					balls[i].y - balls[i].height / 2 - balls[i].yspeed < squares[j].y + squares[j].height / 2 - squares[j].yspeed) {
 
-						balls[i].xspeed *= -1;
-						balls[i].x += balls[i].xspeed;
-					}
+					balls[i].xspeed *= -1;
+				balls[i].x += balls[i].xspeed;
+			}
 					//check if it was top or bottom
 					else {
 						balls[i].yspeed *= -1;
@@ -826,7 +959,7 @@ function drawBalls()
 
 					}
 					squares[j].hp -= balls[i].damage;
-				 }
+				}
 				if (squares[j].hp > 0 && nightmode == false)
 				{
 					if(squares[j].special == 'none')
@@ -877,14 +1010,14 @@ function drawBalls()
 				if (nightmode == false)
 				{
 					balls[i].height /= 1.5;
-		  		 	balls[i].width /= 1.5;
+					balls[i].width /= 1.5;
 				}
 
 			}
 		}
 
-		   balls[i].height -= balls[i].decay;
-		   balls[i].width -= balls[i].decay;
+		balls[i].height -= balls[i].decay;
+		balls[i].width -= balls[i].decay;
 
 		if (balls[i].height > windowHeight - 200 || balls[i].width > windowWidth - 200 || balls[i].height < 3 || balls[i].y > windowHeight) {
 			balls.splice(i, 1);
@@ -893,9 +1026,9 @@ function drawBalls()
 		else
 		{
 
-		fill(balls[i].color);
-		noStroke();
-		ellipse(balls[i].x, balls[i].y, balls[i].width, balls[i].height);
+			fill(balls[i].color);
+			noStroke();
+			ellipse(balls[i].x, balls[i].y, balls[i].width, balls[i].height);
 		}
 	}
 }
